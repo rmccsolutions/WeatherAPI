@@ -1,8 +1,8 @@
 # WeatherAPI
 RESTful Weather API 
 
-# Step 1
+# Install all packages
 yarn install
 
-# Step 2
+# Run API
 yarn dev
