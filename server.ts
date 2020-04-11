@@ -2,10 +2,14 @@ import express from "express";
 import weatherRoutes from "./api/routes/weatherRoute";
 import middleware from "./api/routes/middleware";
 
+//Top level express function
 const app = express();
-const port = process.env.PORT || 3000;
+//Port app will be listening from
+const port = 3000;
 
+//Add middleware
 middleware(app);
+//Weather routes
 weatherRoutes(app);
 
 app.listen(port);
