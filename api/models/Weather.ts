@@ -1,6 +1,9 @@
-// interface Weather{
-//     id:string;
-//     provider: WeatherProvider;
-//     location:WeatherLocation;
-//     forecasts: [Forecast]
+// import Forecast from "./Forecast";
+// import WeatherLocation from "./WeatherLocation";
+
+// export class Weather {
+//   id: string;
+//   provider: WeatherProvider;
+//   weatherLocation: WeatherLocation;
+//   forecasts: [Forecast];
 // }
