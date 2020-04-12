@@ -4,6 +4,7 @@
 export default class WeatherLocation {
   public city: string;
   public region: string;
+  public units: string;
   private lat: number;
   private long: number;
 
@@ -11,7 +12,7 @@ export default class WeatherLocation {
    * @param {string} city
    * @param {string} region
    */
-  constructor(city: string, region: string) {
+  constructor(city: string, region: string, units: string = "imperial") {
     if (city === undefined || !city || city.length < 3) {
       throw new Error("Invalid city");
     }
@@ -21,6 +22,7 @@ export default class WeatherLocation {
 
     this.city = city;
     this.region = region;
+    this.units = units;
     this.lat = 0;
     this.long = 0;
   }

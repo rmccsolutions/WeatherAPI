@@ -1,15 +1,22 @@
 import WeatherLocation from "../WeatherLocation";
-//import DarkskyProvider from "./Providers/Weather/DarkskyProvider";
+import OpenWeatherProvider from "./Providers/Weather/OpenWeatherProvider";
+import WeatherProvider from "./Providers/WeatherProvider";
+import Forcast from "../Forecast";
 
-export class ForecastManager {
-  //private weatherLocation: WeatherLocation;
+export default class ForecastManager {
+  private weatherLocation: WeatherLocation;
+  private providerUsed: WeatherProvider;
 
   constructor(weatherLocation: WeatherLocation) {
-    if (!location) {
-      throw new Error("Invalid location");
-    }
-    //this.weatherLocation = weatherLocation;
+    this.weatherLocation = weatherLocation;
+    this.providerUsed = new OpenWeatherProvider(this.weatherLocation);
   }
 
-  public getForcasts() {}
+  public async getMultiDayDayForcasts(): Promise<[Forcast]> {
+    return await this.providerUsed.getMultiDayForecast();
+  }
+
+  public getProvider(): WeatherProvider {
+    return this.providerUsed;
+  }
 }
