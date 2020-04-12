@@ -10,10 +10,10 @@ import WeatherProvider from "../models/DataManager/Providers/WeatherProvider";
  */
 export const multiDayforecasts = (req: any, res: any) => {
   if (req.headers.city === undefined || req.headers.city.length < 2) {
-    res.json(400, { message: "Invalid city." });
+    res.status(400).json({ message: "Invalid city." });
   }
   if (req.headers.region === undefined || req.headers.region.length < 2) {
-    res.json(400, { message: "Invalid region." });
+    res.status(400).json({ message: "Invalid region." });
   }
 
   //get lat and long for location
