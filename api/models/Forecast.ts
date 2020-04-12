@@ -2,10 +2,12 @@
  * Forecast
  */
 export default class Forecast {
-  public high: number;
-  public low: number;
-  public feelsLike: number;
+  public temp: number;
+  public high?: number;
+  public low?: number;
+  public feelsLike?: number;
   public status: string;
+  public hourly?: [Forecast];
   /**
    * Current time, unix, UTC
    *
@@ -20,16 +22,8 @@ export default class Forecast {
    * @param {number} feelsLike
    * @param {string} status
    */
-  constructor(
-    high: number,
-    low: number,
-    feelsLike: number,
-    status: string,
-    date: number
-  ) {
-    this.high = high;
-    this.low = low;
-    this.feelsLike = feelsLike;
+  constructor(temp: number, status: string, date: number) {
+    this.temp = temp;
     this.status = status;
     this.date = date;
   }

@@ -21,8 +21,57 @@ export default class OpenWeatherProvider implements WeatherProvider {
     this.weatherLocation = weatherLocation;
   }
 
+  /**
+   * Returns milti day forecast
+   *
+   * @returns {Promise<[Forecast]>}
+   * @memberof OpenWeatherProvider
+   */
   public async getMultiDayForecast(): Promise<[Forecast]> {
     let forecasts: [Forecast];
+    let forecastsResponse: any = await this.multiDayForecastRequest();
+
+    let forecast: Forecast = new Forecast(
+      forecastsResponse.current.temp,
+      forecastsResponse.current.weather.pop().main,
+      forecastsResponse.current.dt
+    );
+    forecast.feelsLike = forecastsResponse.current.feels_like;
+
+    //Forty eight hourly forcast
+    if (forecastsResponse.hourly.length > 0) {
+      let hourly: any;
+      let hourlyForecast: Forecast;
+      let fortyEighthourly: any = [];
+      for (hourly of forecastsResponse.hourly) {
+        hourlyForecast = new Forecast(
+          hourly.temp,
+          hourly.weather.pop().main,
+          hourly.dt
+        );
+        fortyEighthourly.push(hourlyForecast);
+      }
+      if (fortyEighthourly.length > 0) {
+        forecast.hourly = fortyEighthourly;
+      }
+    }
+
+    forecasts = [forecast];
+    let day: any = null;
+    for (day of forecastsResponse.daily) {
+      forecast = new Forecast(day.temp.day, day.weather.pop().main, day.dt);
+      forecast.high = day.temp.max;
+      forecast.low = day.temp.min;
+      forecasts.push(forecast);
+    }
+
+    return forecasts;
+  }
+
+  /**
+   * Multiday forcast request.
+   */
+  private async multiDayForecastRequest() {
     //Retrieve lat and long by city and region/state/country
     let google: Google = new Google();
     this.weatherLocation = await google.byCityandRegion(this.weatherLocation);
@@ -40,28 +89,7 @@ export default class OpenWeatherProvider implements WeatherProvider {
       throw new Error(forecastsResponse.message);
     }
 
-    let forecast: Forecast = new Forecast(
-      forecastsResponse.current.temp,
-      forecastsResponse.current.temp,
-      forecastsResponse.current.feels_like,
-      forecastsResponse.current.weather.pop().main,
-      forecastsResponse.current.dt
-    );
-
-    forecasts = [forecast];
-    let day: any = null;
-    for (day of forecastsResponse.daily) {
-      forecast = new Forecast(
-        day.temp.max,
-        day.temp.min,
-        -1,
-        day.weather.pop().main,
-        day.dt
-      );
-      forecasts.push(forecast);
-    }
-
-    return forecasts;
+    return forecastsResponse;
   }
 
   /**

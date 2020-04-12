@@ -9,12 +9,26 @@ import WeatherProvider from "../models/DataManager/Providers/WeatherProvider";
  * @param res Seven day forecast
  */
 export const multiDayforecasts = (req: any, res: any) => {
-  let weatherLocation: WeatherLocation = new WeatherLocation("miami", "fl");
+  if (req.headers.city === undefined || req.headers.city.length < 2) {
+    res.json(400, { message: "Invalid city." });
+  }
+  if (req.headers.region === undefined || req.headers.region.length < 2) {
+    res.json(400, { message: "Invalid region." });
+  }
+
+  //get lat and long for location
+  let weatherLocation: WeatherLocation = new WeatherLocation(
+    req.headers.city,
+    req.headers.region
+  );
+  //get multiday  forecast
   let forecastManager: ForecastManager = new ForecastManager(weatherLocation);
   forecastManager
     .getMultiDayDayForcasts()
     .then((result) => {
+      //get who provided the forecast for us
       let forecastManagerProvider: WeatherProvider = forecastManager.getProvider();
+      //mock out view models
       let weatherLocationViewModel: WeatherLocationViewModel = new WeatherLocationViewModel(
         weatherLocation.city,
         weatherLocation.region,
