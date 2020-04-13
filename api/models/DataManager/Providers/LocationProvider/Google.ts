@@ -35,8 +35,8 @@ export default class Google implements Provider {
     }
 
     //grab the geomentry object
-    let addressComponent : any = googleGeoLocation.results.pop();
-    let formattedAddress : string = addressComponent.formatted_address;
+    let addressComponent: any = googleGeoLocation.results[0];
+    let formattedAddress: string = addressComponent.formatted_address;
     let long: number = addressComponent.geometry.location.lng;
     let lat: number = addressComponent.geometry.location.lat;
 

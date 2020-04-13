@@ -33,7 +33,7 @@ export default class OpenWeatherProvider implements WeatherProvider {
 
     let forecast: Forecast = new Forecast(
       forecastsResponse.current.temp,
-      forecastsResponse.current.weather.pop().main,
+      forecastsResponse.current.weather[0].main,
       forecastsResponse.current.dt
     );
     forecast.feelsLike = forecastsResponse.current.feels_like;
@@ -46,7 +46,7 @@ export default class OpenWeatherProvider implements WeatherProvider {
       for (hourly of forecastsResponse.hourly) {
         hourlyForecast = new Forecast(
           hourly.temp,
-          hourly.weather.pop().main,
+          hourly.weather[0].main,
           hourly.dt
         );
         fortyEighthourly.push(hourlyForecast);
@@ -59,7 +59,7 @@ export default class OpenWeatherProvider implements WeatherProvider {
     forecasts = [forecast];
     let day: any = null;
     for (day of forecastsResponse.daily) {
-      forecast = new Forecast(day.temp.day, day.weather.pop().main, day.dt);
+      forecast = new Forecast(day.temp.day, day.weather[0].main, day.dt);
       forecast.high = day.temp.max;
       forecast.low = day.temp.min;
       forecasts.push(forecast);
