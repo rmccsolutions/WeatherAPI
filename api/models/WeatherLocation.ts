@@ -7,6 +7,7 @@ export default class WeatherLocation {
   public units: string;
   private lat: number;
   private long: number;
+  private formattedAddress: string;
 
   /**
    * @param {string} city
@@ -25,6 +26,7 @@ export default class WeatherLocation {
     this.units = units;
     this.lat = 0;
     this.long = 0;
+    this.formattedAddress = "";
   }
 
   /**
@@ -64,5 +66,13 @@ export default class WeatherLocation {
    */
   public getLong(): number {
     return this.long;
+  }
+
+  public setFormattedAddress(formattedAddress: string) {
+    this.formattedAddress = formattedAddress;
+  }
+
+  public getFormattedAddress(): string {
+    return this.formattedAddress;
   }
 }

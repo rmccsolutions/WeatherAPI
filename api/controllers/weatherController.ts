@@ -29,12 +29,14 @@ export const multiDayforecasts = (req: any, res: any) => {
       //get who provided the forecast for us
       let forecastManagerProvider: WeatherProvider = forecastManager.getProvider();
       //mock out view models
-      let weatherLocationViewModel: WeatherLocationViewModel = new WeatherLocationViewModel(
-        weatherLocation.city,
-        weatherLocation.region,
-        weatherLocation.getLat(),
-        weatherLocation.getLong()
-      );
+      let weatherLocationViewModel: WeatherLocationViewModel = {
+        city: weatherLocation.city,
+        region: weatherLocation.region,
+        lat: weatherLocation.getLat(),
+        long: weatherLocation.getLong(),
+        formattedAddress: weatherLocation.getFormattedAddress(),
+      };
+
       let providerViewModel: ProviderViewModel = new ProviderViewModel(
         forecastManagerProvider.getName(),
         forecastManagerProvider.getUrl(),
